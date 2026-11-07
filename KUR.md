@@ -65,7 +65,7 @@ Araç var olan dosyanın üzerine yazmaz. Çıktısında her dosya için `YAZILD
 python3 ISKELET/araclar/iskelet.py alanlar --proje .
 ```
 
-Öneriyi tabloyla sun. Kullanıcı seçmeden rol açma. İstemde "onay verilmiş say" varsa, yöntemin başlangıç sınırı içinde kalan önerileri aç.
+Öneriyi `ROL_ONERME.md` §5 biçimindeki tabloyla sun: yedi sütunun hepsi dolu (Kanıt sütununda komut çıktısından sayı, Maliyet sütununda ana ajanın göreceği iş). Tablonun altına önerilmeyen ama düşünülen rolleri karşı göstergesiyle ve açılış sırasını yaz. Kullanıcı seçmeden rol açma. İstemde "onay verilmiş say" varsa, yöntemin başlangıç sınırı içinde kalan önerileri aç.
 
 ## 5. Seçilen rolleri aç
 
@@ -93,6 +93,7 @@ python3 ISKELET/araclar/iskelet.py dogrula --proje .
 Kullanıcıya şunları raporla:
 - yazılan ve atlanan dosyalar;
 - kullanılan varsayımlar;
+- rol öneri tablosu, adım 4'teki biçimde (Maliyet sütunu ve önerilmeyen rollerle). Kullanıcı ara mesajları görmemiş olabilir; tablo son raporda yeniden yer alır;
 - açılan roller ve her biri için açılış komutu;
 - yapılmayan adımlar.
 
