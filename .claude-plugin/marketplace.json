@@ -1,0 +1,11 @@
+{
+  "name": "ajan-iskeleti",
+  "owner": { "name": "erendevrimci" },
+  "plugins": [
+    {
+      "name": "ajan-iskeleti",
+      "source": "./",
+      "description": "Ana ajan ve proje rollerinden oluşan çok oturumlu Claude Code düzeni."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: yeni_bilgisayar
+description: Kişisel ayarı, hafızası ve CLAUDE.md'si olmayan temiz bir oturumda kısa bir istemle kurulum. Mülakat cevapları istemde; rol önerisi ve rol açma dahil.
+tags: [kurulum]
+context:
+  scaffold_script: kur_ortam.sh
