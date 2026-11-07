@@ -101,22 +101,38 @@ class Rapor:
             print(f"{durum:10} {yol}" + (f"  ({aciklama})" if aciklama else ""))
 
 
+def _ayni(yol, metin):
+    try:
+        return Path(yol).read_text(encoding="utf-8") == metin
+    except (OSError, UnicodeDecodeError):
+        return False
+
+
 def yeni_dosya(hedef, metin, rapor, birlestir_adi=None):
+    """Var olan dosyanın üzerine yazmaz. İçerik aynıysa (yarım kalan kurulumun yeniden koşusu) kopya da üretmez.
+    Yazılamayan dosya kurulumu durdurmaz; YAZILAMADI olarak raporlanır."""
     hedef = Path(hedef)
     if hedef.exists():
+        if _ayni(hedef, metin):
+            rapor.ekle("AYNI", hedef)
+            return
         if not birlestir_adi:
             rapor.ekle("ATLANDI", hedef, "zaten var")
             return
         hedef = hedef.with_name(birlestir_adi)
         if hedef.exists():
-            rapor.ekle("ATLANDI", hedef, "zaten var")
+            rapor.ekle("AYNI" if _ayni(hedef, metin) else "ATLANDI", hedef, "" if _ayni(hedef, metin) else "zaten var")
             return
+        durum, aciklama = "BİRLEŞTİR", "asıl dosya zaten var; içe aktar ya da birleştir"
+    else:
+        durum, aciklama = "YAZILDI", ""
+    try:
+        hedef.parent.mkdir(parents=True, exist_ok=True)
         hedef.write_text(metin, encoding="utf-8")
-        rapor.ekle("BİRLEŞTİR", hedef, "asıl dosya zaten var; içe aktar ya da birleştir")
+    except OSError as h:
+        rapor.ekle("YAZILAMADI", hedef, f"{h.__class__.__name__}: {h.strerror or h}")
         return
-    hedef.parent.mkdir(parents=True, exist_ok=True)
-    hedef.write_text(metin, encoding="utf-8")
-    rapor.ekle("YAZILDI", hedef)
+    rapor.ekle(durum, hedef, aciklama)
 
 
 def ayar_birlestir(yol, ek, rapor):
@@ -341,6 +357,10 @@ def cmd_kur(a):
     r.ekle("YAZILDI", proje / "iskelet.json")
 
     r.bas()
+    yazilamayan = [y for d_, y, _ in r.satirlar if d_ == "YAZILAMADI"]
+    if yazilamayan:
+        print(f"\nUYARI: {len(yazilamayan)} dosya yazılamadı (izin ya da yalıtım). Kurulum sürdü; bu dosyaları "
+              "kullanıcıya bildir ya da izin verilince aracı yeniden koş (yazılmış dosyalar AYNI geçer).")
     kalan = kalan_doldur([proje / "CLAUDE.md", proje / "CLAUDE.iskelet.md", proje / "PLAN.md",
                           proje / "docs/DURUM.md", klasor / "CLAUDE.md"])
     print("\nDoldurulacak boşluklar:" if kalan else "\nDoldurulacak boşluk yok.")

@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Bash
-input_match: 'git[^"]*\b(commit|push)\b'
+input_match: '\bgit\s+(-C\s+\S+\s+)?(commit|push)\b'
 min: 0
 max: 0
 ---

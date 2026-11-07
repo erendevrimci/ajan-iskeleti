@@ -12,7 +12,7 @@ Bu belgeyi okuyan sen, kurulacak projenin **ana ajanısın**. Adın kullanıcın
 claude --version                      # 2.1.224 ve üstü: oturumlar arası mesajlaşma var
 git rev-parse --show-toplevel         # proje bir git deposu olmalı; değilse kullanıcıya sor, kendin git init yapma
 git status --porcelain | head
-python3 --version                     # 3.8 ve üstü
+python3 --version                     # 3.8 ve üstü; PATH'teki python3 standart kütüphanesini okuyamıyorsa (yalıtılmış ortam) /usr/bin/python3 dene
 ls; ls docs 2>/dev/null | head        # var olan CLAUDE.md, PLAN, docs
 ```
 
@@ -42,7 +42,7 @@ python3 ISKELET/araclar/iskelet.py kur \
   [--hafiza <hafıza klasörü>]
 ```
 
-Araç var olan dosyanın üzerine yazmaz. Çıktısında her dosya için `YAZILDI`, `ATLANDI` ya da `BİRLEŞTİR` görünür; çıktıyı kullanıcıya özetle.
+Araç var olan dosyanın üzerine yazmaz. Çıktısında her dosya için `YAZILDI`, `AYNI`, `ATLANDI`, `BİRLEŞTİR` ya da `YAZILAMADI` görünür; çıktıyı kullanıcıya özetle. Kurulum yarıda kesildiyse aynı komutu yeniden koşmak güvenlidir: önceki koşunun yazdığı dosyalar `AYNI` geçer. `YAZILAMADI` satırı kurulumu durdurmaz; dosyayı kullanıcıya bildir, engeli aşmaya çalışma.
 
 `--kanca yerel` kancaları `.claude/hooks/`'a, becerileri `.claude/skills/`'e kopyalar ve `.claude/settings.json`'a kanca kaydını ekler. `--kanca eklenti` kipinde bunları eklenti taşır. Bu kipte kullanıcının `claude plugin install ajan-iskeleti@ajan-iskeleti --scope project` komutunu koşmuş olması gerekir; `dogrula` bunu denetler.
 

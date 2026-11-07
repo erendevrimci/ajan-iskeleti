@@ -1,6 +1,11 @@
 {
   "name": "ajan-iskeleti",
-  "owner": { "name": "erendevrimci" },
+  "owner": {
+    "name": "erendevrimci"
+  },
+  "metadata": {
+    "description": "ajan-iskeleti: çok oturumlu Claude Code düzeni kuran eklenti."
+  },
   "plugins": [
     {
       "name": "ajan-iskeleti",

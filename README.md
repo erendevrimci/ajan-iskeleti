@@ -86,4 +86,5 @@ claude plugin eval . --scaffold --trust-plugin --allow-tools Bash Write Edit --r
 
 ## Sürüm geçmişi
 
+- **0.1.1 (07.11.2026):** kabul testinin ilk koşusundan. Yarıda kalan kurulum yeniden koşulunca aynı içerikli kopya (`CLAUDE.iskelet.md`) üretilmez, dosya `AYNI` geçer. Yazılamayan dosya (yalıtılmış ortamda `.claude/agents`) kurulumu durdurmaz, `YAZILAMADI` olarak raporlanır. `commit_push_yok` denetçisi yalnız gerçek `git commit` ve `git push` çağrısını sayar; önceki biçim metindeki "gitmez … push" sözünü de yakalıyordu.
 - **0.1.0 (07.11.2026):** ilk sürüm. İlkeler, kurulum akışı, yedi arketip, rol önerme yöntemi, şablonlar, dokuz beceri, iki kanca, araç, birim testleri, kabul testi, anonim örnek.

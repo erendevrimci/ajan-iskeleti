@@ -225,6 +225,32 @@ class KurulumTesti(unittest.TestCase):
         self.assertTrue((Path(self.tmp.name) / "proje_oturumlar" / "genel" / "CLAUDE.md").exists())
         self.assertIn("BİRLEŞTİR", r.stdout)
 
+    def test_yarim_kurulum_yeniden_kosulur(self):
+        proje, oturum, r = kurulum(self.tmp.name)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        (proje / "iskelet.json").unlink()  # kurulum sondan önce kesilmiş gibi
+        r = kos(ARAC, "kur", "--proje", proje, "--ana-ajan", "ŞEF", "--kullanici", "Deniz", "--oturum-kok", oturum,
+                "--kanca", "yerel", "--hafiza", Path(self.tmp.name).resolve() / "hafiza")
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertFalse((proje / "CLAUDE.iskelet.md").exists(), "aynı içerik için kopya üretildi")
+        self.assertFalse((proje / "CLAUDE.local.iskelet.md").exists())
+        self.assertIn("AYNI", r.stdout)
+        self.assertEqual(kos(ARAC, "dogrula", "--proje", proje).returncode, 0)
+
+    def test_yazilamayan_dosya_kurulumu_durdurmaz(self):
+        proje = Path(self.tmp.name).resolve() / "proje"
+        depo_kur(proje)
+        kilitli = proje / ".claude/agents"
+        kilitli.mkdir(parents=True)
+        kilitli.chmod(0o500)
+        try:
+            r = kos(ARAC, "kur", "--proje", proje, "--ana-ajan", "GENEL", "--kullanici", "D", "--kanca", "yerel")
+        finally:
+            kilitli.chmod(0o700)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("YAZILAMADI", r.stdout)
+        self.assertTrue((proje / "iskelet.json").exists())
+
     def test_oturum_koku_proje_icinde_olamaz(self):
         proje = Path(self.tmp.name) / "proje"
         depo_kur(proje)

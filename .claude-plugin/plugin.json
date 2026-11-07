@@ -1,6 +1,6 @@
 {
   "name": "ajan-iskeleti",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bir ana ajan (koordinatör) ve proje rollerinden oluşan çok oturumlu Claude Code düzenini bir projeye kurar: kurallar, belgeler, rol kartları, kancalar.",
   "author": { "name": "erendevrimci" }
 }
